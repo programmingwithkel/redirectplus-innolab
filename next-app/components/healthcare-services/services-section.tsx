@@ -90,13 +90,13 @@ export function ServicesSection({ services }: ServicesSectionProps) {
               placeholder="Search service or facility..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-8 w-48 rounded-lg border border-border bg-white pl-8 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400 transition-all"
+              className="h-8 w-48 rounded-lg border border-border bg-card pl-8 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400 transition-all"
             />
           </div>
           <select
             value={capabilityFilter}
             onChange={(e) => setCapabilityFilter(e.target.value)}
-            className="h-8 rounded-lg border border-border bg-white px-2.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400 transition-all"
+            className="h-8 rounded-lg border border-border bg-card px-2.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400 transition-all"
           >
             <option value="ALL">All Levels</option>
             <option value="BASIC">Basic</option>
@@ -128,7 +128,7 @@ export function ServicesSection({ services }: ServicesSectionProps) {
                   return (
                     <div
                       key={svc.id}
-                      className="group rounded-xl border border-border bg-white p-3 shadow-sm hover:shadow-md transition-shadow"
+                      className="group rounded-xl border border-border bg-card p-3 shadow-sm hover:shadow-md transition-shadow"
                     >
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0 flex-1">

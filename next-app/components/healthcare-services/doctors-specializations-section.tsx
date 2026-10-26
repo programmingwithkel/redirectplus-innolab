@@ -31,9 +31,9 @@ const SPECIALIST_STATUS_STYLES: Record<
     label: "Off Duty",
   },
   UNKNOWN: {
-    bg: "bg-gray-50",
-    text: "text-gray-600",
-    dot: "bg-gray-400",
+    bg: "bg-muted",
+    text: "text-muted-foreground",
+    dot: "bg-muted-foreground",
     label: "Unknown",
   },
 }
@@ -102,7 +102,7 @@ export function DoctorsSpecializationsSection({
               placeholder="Search specialist or facility..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-8 w-48 rounded-lg border border-border bg-white pl-8 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-400 transition-all"
+              className="h-8 w-48 rounded-lg border border-border bg-card pl-8 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-400 transition-all"
             />
           </div>
 
@@ -110,7 +110,7 @@ export function DoctorsSpecializationsSection({
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="h-8 rounded-lg border border-border bg-white px-2.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-400 transition-all"
+            className="h-8 rounded-lg border border-border bg-card px-2.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-400 transition-all"
           >
             <option value="ALL">All Status</option>
             <option value="AVAILABLE">On Call</option>
@@ -136,7 +136,7 @@ export function DoctorsSpecializationsSection({
                   return (
                     <div
                       key={doc.id}
-                      className="flex items-center justify-between rounded-xl border border-border bg-white p-3 shadow-sm hover:shadow-md transition-shadow"
+                      className="flex items-center justify-between rounded-xl border border-border bg-card p-3 shadow-sm hover:shadow-md transition-shadow"
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         <div

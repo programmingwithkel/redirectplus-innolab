@@ -33,7 +33,7 @@ const BED_STATUS_STYLES: Record<
     label: "Unavailable",
   },
   UNKNOWN: {
-    className: "text-gray-600 bg-gray-50 border-gray-200",
+    className: "text-muted-foreground bg-muted border-border",
     label: "Unknown",
   },
 }
@@ -100,13 +100,13 @@ export function BedsRoomsSection({ beds }: BedsRoomsSectionProps) {
               placeholder="Search bed type or facility..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-8 w-48 rounded-lg border border-border bg-white pl-8 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-sky-500/30 focus:border-sky-400 transition-all"
+              className="h-8 w-48 rounded-lg border border-border bg-card pl-8 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-sky-500/30 focus:border-sky-400 transition-all"
             />
           </div>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="h-8 rounded-lg border border-border bg-white px-2.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-sky-500/30 focus:border-sky-400 transition-all"
+            className="h-8 rounded-lg border border-border bg-card px-2.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-sky-500/30 focus:border-sky-400 transition-all"
           >
             <option value="ALL">All Status</option>
             <option value="AVAILABLE">Available</option>
@@ -122,7 +122,7 @@ export function BedsRoomsSection({ beds }: BedsRoomsSectionProps) {
           {Array.from(bedSummary.entries()).map(([label, counts]) => (
             <div
               key={label}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-white px-3 py-1 text-xs shadow-sm"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-xs shadow-sm"
             >
               <Bed className="h-3 w-3 text-sky-600" />
               <span className="font-medium text-foreground">{label}</span>
@@ -135,7 +135,7 @@ export function BedsRoomsSection({ beds }: BedsRoomsSectionProps) {
       )}
 
       {/* Beds table */}
-      <div className="rounded-xl border border-border bg-white shadow-sm overflow-x-auto">
+      <div className="rounded-xl border border-border bg-card shadow-sm overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -152,7 +152,7 @@ export function BedsRoomsSection({ beds }: BedsRoomsSectionProps) {
               const style =
                 BED_STATUS_STYLES[bed.status] ?? BED_STATUS_STYLES.UNKNOWN
               return (
-                <TableRow key={bed.id} className="hover:bg-slate-50/50">
+                <TableRow key={bed.id} className="hover:bg-muted/50">
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Bed className="h-3.5 w-3.5 text-sky-600 shrink-0" />
