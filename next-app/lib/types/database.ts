@@ -28,6 +28,9 @@ export type ReferralEventType =
   | "COMPLETED"
   | "CANCELLED"
   | "NOTE_ADDED"
+  | "DETAILS_UPDATED"
+  | "ARCHIVED"
+  | "UNARCHIVED"
 export type UrgencyLevel = "ROUTINE" | "URGENT" | "EMERGENCY"
 export type ResourceStatus = "AVAILABLE" | "LIMITED" | "UNAVAILABLE" | "UNKNOWN"
 export type OperatingStatus = "OPERATIONAL" | "LIMITED_OPERATIONS" | "CLOSED" | "UNKNOWN"
@@ -111,6 +114,9 @@ export interface Referral {
   recommendation_reason: string | null
   override_reason: string | null
   recommendation_run_id: string | null
+  // Receiver-side soft archive (inbox only)
+  receiver_archived_at: string | null
+  receiver_archived_by: string | null
   // Actor
   created_by: string
   // Timestamps

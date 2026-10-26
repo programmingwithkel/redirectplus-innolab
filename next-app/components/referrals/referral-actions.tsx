@@ -12,6 +12,9 @@ import {
   MessageSquare,
   Loader2,
   Ban,
+  Pencil,
+  Archive,
+  ArchiveRestore,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -21,8 +24,11 @@ import {
   redirectReferralAction,
   addNoteAction,
 } from "@/lib/actions/referral-actions"
+import { setIncomingReferralArchivedAction } from "@/lib/actions/incoming-referral-actions"
+import { EditReferralDetailsDialog } from "@/components/referrals/incoming/edit-referral-details-dialog"
 import type { ReferralStatus } from "@/lib/constants/referral-status"
 import type { Facility } from "@/lib/types/database"
+import type { IncomingReferral } from "@/lib/referrals/domain/types"
 
 interface ReferralActionsProps {
   referralId: string
@@ -32,6 +38,7 @@ interface ReferralActionsProps {
   facilities: Facility[]
   currentFacilityId: string
   referringFacilityId: string
+  incomingReferral?: IncomingReferral | null
 }
 
 export function ReferralActions({
@@ -42,15 +49,28 @@ export function ReferralActions({
   facilities,
   currentFacilityId,
   referringFacilityId,
+  incomingReferral,
 }: ReferralActionsProps) {
   const router = useRouter()
   const [loading, setLoading] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showRedirect, setShowRedirect] = useState(false)
   const [showNote, setShowNote] = useState(false)
+  const [showEdit, setShowEdit] = useState(false)
   const [notes, setNotes] = useState("")
   const [redirectFacility, setRedirectFacility] = useState("")
   const [redirectReason, setRedirectReason] = useState("")
+
+  async function handleArchiveToggle(archived: boolean) {
+    setLoading("archive")
+    setError(null)
+    const result = await setIncomingReferralArchivedAction({ referralId, archived })
+    if (!result.success) {
+      setError(result.error)
+    }
+    setLoading(null)
+    router.refresh()
+  }
 
   async function handleStatusUpdate(newStatus: ReferralStatus, label: string) {
     setLoading(label)
@@ -198,6 +218,19 @@ export function ReferralActions({
             </Button>
           )}
 
+          {/* Edit Details (receiver, active) */}
+          {isReceiver && incomingReferral && !incomingReferral.archivedAt && (
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setShowEdit(true)}
+              disabled={loading !== null}
+            >
+              <Pencil className="mr-1 h-3 w-3" />
+              Edit Details
+            </Button>
+          )}
+
           {/* Add Note (any active status, sender or receiver) */}
           {(isSender || isReceiver) && (
             <Button
@@ -211,6 +244,50 @@ export function ReferralActions({
             </Button>
           )}
         </div>
+      )}
+
+      {/* Terminal actions for receiver: archive/restore */}
+      {isTerminal && isReceiver && incomingReferral && (
+        <div className="flex flex-wrap gap-2">
+          {incomingReferral.archivedAt ? (
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => handleArchiveToggle(false)}
+              disabled={loading !== null}
+            >
+              {loading === "archive" ? (
+                <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+              ) : (
+                <ArchiveRestore className="mr-1 h-3 w-3" />
+              )}
+              Restore to Inbox
+            </Button>
+          ) : (
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => handleArchiveToggle(true)}
+              disabled={loading !== null}
+            >
+              {loading === "archive" ? (
+                <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+              ) : (
+                <Archive className="mr-1 h-3 w-3" />
+              )}
+              Archive Referral
+            </Button>
+          )}
+        </div>
+      )}
+
+      {/* Edit Details Dialog */}
+      {isReceiver && incomingReferral && (
+        <EditReferralDetailsDialog
+          referral={incomingReferral}
+          open={showEdit}
+          onOpenChange={setShowEdit}
+        />
       )}
 
       {/* Redirect Dialog */}

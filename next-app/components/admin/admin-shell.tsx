@@ -29,6 +29,7 @@ const adminNavItems = [
   { label: "Users", href: "/admin/users", icon: Users },
   { label: "Referrals", href: "/admin/referrals", icon: ClipboardList },
   { label: "Resources", href: "/admin/resources", icon: Package },
+  { label: "Healthcare Services", href: "/admin/healthcare-services", icon: Heart },
 ]
 
 export function AdminShell({

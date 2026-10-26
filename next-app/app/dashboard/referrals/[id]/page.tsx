@@ -11,11 +11,13 @@ import {
   MapPin,
   FileText,
   Activity,
+  Archive,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { StatusBadge, UrgencyBadge, FacilityTypeBadge } from "@/components/shared/status-badge"
 import { ReferralActions } from "@/components/referrals/referral-actions"
 import type { ReferralStatus } from "@/lib/constants/referral-status"
+import type { IncomingReferral } from "@/lib/referrals/domain/types"
 
 export default async function ReferralDetailPage({
   params,
@@ -71,6 +73,32 @@ export default async function ReferralDetailPage({
   const refFacility = referral.referring_facility as any
   const recFacility = referral.receiving_facility as any
 
+  const incomingReferral: IncomingReferral | null = isReceiver
+    ? {
+        id: referral.id,
+        patientName: referral.patient_name,
+        patientAge: referral.patient_age,
+        patientSex: referral.patient_sex,
+        patientAddress: referral.patient_address,
+        chiefComplaint: referral.chief_complaint,
+        reason: referral.reason,
+        requiredService: referral.required_service,
+        requiredSpecialty: referral.required_specialty,
+        urgency: referral.urgency,
+        clinicalNotes: referral.clinical_notes,
+        status: referral.status as ReferralStatus,
+        referringFacility: {
+          id: refFacility?.id ?? "",
+          name: refFacility?.name ?? "Unknown facility",
+          facilityType: refFacility?.facility_type ?? "",
+        },
+        receivingFacilityId: referral.receiving_facility_id,
+        archivedAt: referral.receiver_archived_at ?? null,
+        createdAt: referral.created_at,
+        updatedAt: referral.updated_at,
+      }
+    : null
+
   return (
     <div className="space-y-6">
       {/* Back link + Header */}
@@ -89,6 +117,12 @@ export default async function ReferralDetailPage({
             <div className="mt-1 flex flex-wrap items-center gap-2">
               <StatusBadge status={referral.status as ReferralStatus} />
               <UrgencyBadge urgency={referral.urgency} />
+              {referral.receiver_archived_at && isReceiver && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
+                  <Archive className="size-3" />
+                  Archived in your inbox
+                </span>
+              )}
               <span className="text-xs text-muted-foreground">
                 ID: {referral.id.slice(0, 8)}
               </span>
@@ -106,6 +140,7 @@ export default async function ReferralDetailPage({
         facilities={facilities ?? []}
         currentFacilityId={user.facility_id}
         referringFacilityId={referral.referring_facility_id}
+        incomingReferral={incomingReferral}
       />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">

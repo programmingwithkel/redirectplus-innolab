@@ -4,6 +4,7 @@ import { useState, type ReactNode } from "react"
 import { DashboardSidebar } from "@/components/dashboard/sidebar"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { FacilityThemeProvider } from "@/components/dashboard/facility-theme-provider"
+import { Toaster } from "@/components/ui/toast"
 import { AuthProvider } from "@/lib/auth/auth-context"
 import type { ProfileWithFacility } from "@/lib/types/database"
 import { FACILITY_THEMES } from "@/lib/constants/facility-themes"
@@ -25,23 +26,25 @@ export function DashboardShell({
   return (
     <AuthProvider initialUser={user}>
       <FacilityThemeProvider facilityType={facilityType}>
-        <div className="flex h-svh overflow-hidden bg-gray-50/50">
-          <DashboardSidebar
-            facilityName={facilityName}
-            facilityType={theme.label}
-            open={sidebarOpen}
-            onClose={() => setSidebarOpen(false)}
-          />
-          <div className="flex flex-1 flex-col overflow-hidden">
-            <DashboardHeader
-              userName={user.full_name}
-              onMenuClick={() => setSidebarOpen(true)}
+        <Toaster>
+          <div className="flex h-svh overflow-hidden bg-gray-50/50">
+            <DashboardSidebar
+              facilityName={facilityName}
+              facilityType={theme.label}
+              open={sidebarOpen}
+              onClose={() => setSidebarOpen(false)}
             />
-            <main className="flex-1 overflow-y-auto p-4 lg:p-6">
-              {children}
-            </main>
+            <div className="flex flex-1 flex-col overflow-hidden">
+              <DashboardHeader
+                userName={user.full_name}
+                onMenuClick={() => setSidebarOpen(true)}
+              />
+              <main className="flex-1 overflow-y-auto p-4 lg:p-6">
+                {children}
+              </main>
+            </div>
           </div>
-        </div>
+        </Toaster>
       </FacilityThemeProvider>
     </AuthProvider>
   )

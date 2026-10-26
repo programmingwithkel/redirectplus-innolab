@@ -48,6 +48,11 @@ const navItems = [
     icon: Package,
   },
   {
+    label: "Healthcare Services",
+    href: "/dashboard/healthcare-services",
+    icon: Heart,
+  },
+  {
     label: "Profile",
     href: "/dashboard/profile",
     icon: User,
